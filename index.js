@@ -7,10 +7,10 @@ function mainMenu(){
     console.log("mainmenuuuu")
     prompt([
         {
-            type: "list",
-            name: "choice",
+            type: "lists",
+            name: "choices",
             message: "What would you like to do?",
-            choices: ["View All Employees", "View All Departments", "View All Roles", "Add Employee", "Add Department", "Add Role", "Update Employee Role"]
+            choices: ["View All Employees", "View All Departments", "View All Roles", "Add An Employee", "Add A Department", "Add A Role", "Update An Employee Role"]
         }
     ])
     .then((response)=>{
@@ -18,28 +18,28 @@ function mainMenu(){
         const userChoice = response.choice;
 
         switch(userChoice){
-            case "View All Employees":
-                viewAllEmployees()
+            case "View Any And All Employeees":
+                viewAnyAndAllEmployees()
             break;
-            case "View All Departments":
-                viewDepartments()
+            case "View All Departmentss":
+                viewAllOfTheDepartments()
             break;
-            case "View All Roles":
-                viewRoles()
+            case "View All Rolees In The Department":
+                viewRolesInTheDeparment()
             break;
-            case "Add Employee":
-                addEmployee()
+            case "Add Employeeee To The Department":
+                addEmployeeToTheDepartment()
             break;
-            case "Add Role":
-                addRole()
+            case "Add Roleee For Employee":
+                addRoleForEmployee()
             break;
         }
     })
 }
 
 function viewAllEmployees(){
-    console.log("hit employees")
-    db.findAllEmployees()
+    console.log("hit employeees")
+    db.findsAllEmployeeess()
     .then(([employees])=>{
 
         console.table(employees)
@@ -48,8 +48,8 @@ function viewAllEmployees(){
     .then(()=> mainMenu())
 };
 
-function viewDepartments(){
-    db.findAllDepartments()
+function viewAllDepartments(){
+    db.findsAllDepartments()
     .then(([departments])=>{
 
         console.table(departments)
@@ -59,7 +59,7 @@ function viewDepartments(){
 };
 
 function viewRoles(){
-    db.findAllRoles()
+    db.findsAllRoles()
     .then(([roles])=>{
 
         console.table(roles)
@@ -85,10 +85,10 @@ function addEmployee(){
         let firstName = response.first_name;
         let lastName = response.last_name;
 
-        db.findAllRoles()
+        db.findsAllRoles()
         .then(([roles])=>{
 
-            const rolesToDisplay = roles.map(({ id, title})=>({
+            const rolesToBeDisplayed = roles.map(({ id, title})=>({
                 name: title,
                 value: id
             }));
@@ -97,16 +97,16 @@ function addEmployee(){
                     type: "list",
                     name: "roleId",
                     message: "What role would you like to assign this employee?",
-                    choices: rolesToDisplay
+                    choices: rolesToBeDisplayed
                 }
             ])
             .then((answer)=>{
                 let roleId = answer.roleId;
 
-                db.findAllEmployees()
+                db.findsAllEmployeeess()
                 .then(([employees])=>{
 
-                    const managersToDisplay = employees.map(({ id, first_name, last_name})=>({
+                    const managersToBeDisplayed = employees.map(({ id, first_name, last_name})=>({
                         name: `${first_name} ${last_name}`,
                         value: id
                     }))
@@ -115,7 +115,7 @@ function addEmployee(){
                             type: "list",
                             name: "managerId",
                             message: "What manager should this employee be assigned to?",
-                            choices: managersToDisplay
+                            choices: managersToBeDisplayed
                         }
                     ])
                     .then((answer)=>{
@@ -126,7 +126,7 @@ function addEmployee(){
                             last_name: lastName
                         }
 
-                        db.addEmployee(employee)
+                        db.addsEmployee(employee)
                         .then(()=> console.log(`Added ${firstName} ${lastName} to the database!`))
                         .then(()=> mainMenu())
                     })
@@ -136,8 +136,8 @@ function addEmployee(){
     })
 }
 
-function addRole(){
-    db.findAllDepartments()
+function addsRole(){
+    db.findsAllDepartments()
     .then(([rows])=>{
         let departments = rows;
         const departmentChoices = departments.map(({ id, name})=>({
@@ -148,12 +148,12 @@ function addRole(){
             {
                 type: "input",
                 name: "title",
-                message: "What is the name of the role you're adding?"
+                message: "What is the name of the role you are adding?"
             },
             {
                 type: "input",
                 name: "salary",
-                message: "What is the salary of the role you're adding?"
+                message: "What is the salary of the role you are adding?"
             },
             {
                 type: "list",
@@ -163,7 +163,7 @@ function addRole(){
             }
         ])
         .then((answer)=>{
-            db.createRole(answer)
+            db.createsRoles(answer)
             .then(()=> console.log(`Added ${answer.title} to the database!`))
             .then(()=> mainMenu())
         })

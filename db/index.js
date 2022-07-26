@@ -6,31 +6,31 @@ class DB {
         this.connection = connection;
     }
 
-    findAllEmployees(){
+    findsAllEmployees(){
         return this.connection.promise().query(
             "SELECT * FROM employee"
         )
     };
 
-    findAllDepartments(){
+    findsAllDepartments(){
         return this.connection.promise().query(
             "SELECT * FROM department"
         )
     };
 
-    findAllRoles(){
+    findsAllRoles(){
         return this.connection.promise().query(
             "SELECT * FROM role"
         )
     };
 
-    addEmployee(employee){
+    addsEmployee(employee){
         return this.connection.promise().query(
             "INSERT INTO employee SET ?", employee
         )
     }
 
-    createRole(role){
+    createsRoles(role){
         return this.connection.promise().query(
             "INSERT INTO role SET ?", role
         )
